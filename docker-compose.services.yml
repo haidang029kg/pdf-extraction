@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: freight_audit_postgres
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=freight_audit
+      - POSTGRES_PASSWORD=your_password
+      - POSTGRES_DB=freight_audit
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U freight_audit"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    container_name: freight_audit_redis
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  localstack:
+    container_name: freight_audit_localstack
+    image: localstack/localstack:latest
+    environment:
+      - SERVICES=s3,textract
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_DEFAULT_REGION=us-east-1
+    ports:
+      - "4566:4566"
+      - "4510-4559:4510-4559"
+    volumes:
+      - localstack_data:/tmp/localstack/data
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+volumes:
+  postgres_data:
+  redis_data:
+  localstack_data:

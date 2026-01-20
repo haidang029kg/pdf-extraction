@@ -1,0 +1,52 @@
+[project]
+name = "pdf-extract"
+version = "1.0.0"
+description = "Freight Invoice Data Extraction System"
+requires-python = ">=3.11"
+authors = [
+    {name = "Freight Audit Team"}
+]
+dependencies = [
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "python-multipart>=0.0.6",
+    "sqlalchemy>=2.0.25",
+    "psycopg2-binary>=2.9.9",
+    "alembic>=1.13.1",
+    "boto3>=1.34.39",
+    "botocore>=1.34.39",
+    "celery>=5.3.6",
+    "redis>=5.0.1",
+    "pydantic>=2.5.3",
+    "pydantic-settings>=2.1.0",
+    "pdf2image>=1.16.3",
+    "pillow>=10.2.0",
+    "openpyxl>=3.1.2",
+    "pandas>=2.2.0",
+    "google-generativeai>=0.3.2",
+    "anthropic>=0.18.1",
+    "python-dateutil>=2.8.2",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.25.0",
+    "black>=23.12.0",
+    "ruff>=0.1.0",
+]
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+lint.select = ["SIM", "FAST", "ASYNC", "I"]
+exclude = [".venv"]
+
+[tool.ruff.format]
+quote-style = "double"
+docstring-code-format = true
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+
