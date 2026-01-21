@@ -1,9 +1,7 @@
-from app.db.session import init_db
+import asyncio
 
-def main():
-    print("Initializing database...")
-    init_db()
-    print("✅ Database tables created successfully!")
+from src.db import connect_db
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(connect_db())
+    print("✅ Database initialized")
